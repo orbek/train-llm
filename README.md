@@ -32,6 +32,12 @@ Or run a notebook headlessly:
 MPLBACKEND=Agg python notebooks/01_data_and_bag_of_words.py
 ```
 
+Notebooks use the standard `python3` kernelspec (no custom registration needed). To regenerate a rendered `.ipynb` from its `.py` source:
+
+```bash
+jupytext --to notebook --execute --set-kernel python3 notebooks/<file>.py -o notebooks/<file>.ipynb
+```
+
 ## Status
 
 - [ ] Phase 1 — Foundations (notebooks 00–02) — in progress
