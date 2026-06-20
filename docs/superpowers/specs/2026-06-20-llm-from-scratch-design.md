@@ -131,6 +131,22 @@ This covers the full requested journey: dataset, bag-of-words, embedding,
 tensorizing, training loop, evaluation, tuning, testing — plus modern
 transformer methods and MoE.
 
+## Phasing
+
+The curriculum is delivered in three phases, each with its own implementation
+plan and a review point between them, so working results arrive early.
+
+- **Phase 1 — Foundations (notebooks 00–02):** environment setup, data loading,
+  word-level Bag-of-Words baseline, and embeddings that measurably beat it.
+  Deliverable: the pipeline runs end-to-end and the BoW→embeddings story is
+  proven with perplexity numbers.
+- **Phase 2 — The working transformer (notebooks 03–07):** attention, modern
+  components (RoPE/RMSNorm/SwiGLU), the assembled model, the training loop, and
+  evaluation + text generation. Deliverable: a trained tiny model that
+  generates Shakespeare-flavored text.
+- **Phase 3 — Advanced (notebooks 08–10):** hyperparameter tuning, BPE from
+  scratch, and the Mixture-of-Experts capstone.
+
 ## Testing Philosophy
 
 Because the project is notebook-based, "testing" means **inline sanity checks
