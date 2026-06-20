@@ -53,11 +53,11 @@ import time
 import torch
 import matplotlib.pyplot as plt
 
-from model import GPT, DEFAULT_CONFIG
+from model import GPT, DEFAULT_CONFIG, get_device
 
 torch.manual_seed(1337)
-device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
-print("device:", device)
+device = get_device()
+print("Using device:", device)
 
 # %% [markdown]
 # ---

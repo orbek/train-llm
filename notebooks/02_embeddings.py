@@ -77,7 +77,14 @@ import torch.nn as nn
 import matplotlib.pyplot as plt
 
 torch.manual_seed(1337)
-device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
+# Auto-detect the best compute engine: CUDA (NVIDIA) -> MPS (Apple Silicon) -> CPU.
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
+print("Using device:", device)
 
 with open("data/shakespeare.txt", "r", encoding="utf-8") as f:
     text = f.read()

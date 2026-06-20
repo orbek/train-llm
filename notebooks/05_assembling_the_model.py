@@ -50,11 +50,11 @@ import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
 
-from model import GPT, NANO_CONFIG, DEFAULT_CONFIG
+from model import GPT, NANO_CONFIG, DEFAULT_CONFIG, get_device
 
 torch.manual_seed(1337)
-device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
-print("device:", device)
+device = get_device()
+print("Using device:", device)
 print("NANO_CONFIG  :", NANO_CONFIG)
 print("DEFAULT_CONFIG:", DEFAULT_CONFIG)
 
@@ -197,7 +197,7 @@ print("DEFAULT_CONFIG:", DEFAULT_CONFIG)
 #
 # - **`NANO_CONFIG`**: a tiny model for rapid debugging — 3 layers, 128-dim embeddings,
 #   64-token context. Trains to convergence in seconds on a CPU.
-# - **`DEFAULT_CONFIG`**: the full ~10–15M parameter model used for the course's
+# - **`DEFAULT_CONFIG`**: the full ~9.4M parameter model used for the course's
 #   training run — 6 layers, 384-dim embeddings, 256-token context.
 #
 # Let's instantiate both and see how many parameters they have.

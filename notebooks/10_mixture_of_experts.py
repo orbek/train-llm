@@ -52,11 +52,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 
-from model import RMSNorm, CausalSelfAttention, build_rope, GPTConfig
+from model import RMSNorm, CausalSelfAttention, build_rope, GPTConfig, get_device
 
 torch.manual_seed(42)
-device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
-print("device:", device)
+device = get_device()
+print("Using device:", device)
 
 # %% [markdown]
 # ---

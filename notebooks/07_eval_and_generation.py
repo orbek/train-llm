@@ -39,11 +39,11 @@ print("Working directory:", os.getcwd())
 import time
 import torch
 
-from model import GPT, sample
+from model import GPT, sample, get_device
 
 torch.manual_seed(42)
-device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
-print("device:", device)
+device = get_device()
+print("Using device:", device)
 
 # %% [markdown]
 # ---

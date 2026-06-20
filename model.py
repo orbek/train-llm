@@ -21,10 +21,21 @@ class GPTConfig:
     rope_theta: float = 10000.0
 
 
-# The "full" ~10-15M model (committed training run) and a tiny debug preset.
+# The "full" ~9.4M model (committed training run) and a tiny debug preset.
 DEFAULT_CONFIG = GPTConfig()
 NANO_CONFIG = GPTConfig(block_size=64, n_layer=3, n_head=4, n_kv_head=2,
                         n_embd=128, dropout=0.0)
+
+
+def get_device():
+    """Best available compute engine: CUDA (NVIDIA GPU) -> MPS (Apple Silicon) -> CPU.
+
+    Works seamlessly on Windows/Linux (CUDA or CPU) and macOS (MPS or CPU)."""
+    if torch.cuda.is_available():
+        return torch.device("cuda")
+    if torch.backends.mps.is_available():
+        return torch.device("mps")
+    return torch.device("cpu")
 
 
 def build_rope(head_dim, seq_len, theta=10000.0):
