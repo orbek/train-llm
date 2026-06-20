@@ -12,3 +12,10 @@ data/*
 !data/.gitkeep
 checkpoints/*
 !checkpoints/.gitkeep
+
+# macOS
+.DS_Store
+
+# Stray dirs created if a notebook is run with cwd=notebooks/ (JupyterLab default)
+notebooks/data/
+notebooks/assets/
