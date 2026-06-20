@@ -21,7 +21,7 @@ class GPTConfig:
     rope_theta: float = 10000.0
 
 
-# The "full" ~10-15M model (committed training run) and a tiny debug preset.
+# The "full" ~9.4M model (committed training run) and a tiny debug preset.
 DEFAULT_CONFIG = GPTConfig()
 NANO_CONFIG = GPTConfig(block_size=64, n_layer=3, n_head=4, n_kv_head=2,
                         n_embd=128, dropout=0.0)

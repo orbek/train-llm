@@ -39,16 +39,10 @@ print("Working directory:", os.getcwd())
 import time
 import torch
 
-from model import GPT, sample
+from model import GPT, sample, get_device
 
 torch.manual_seed(42)
-# Auto-detect the best compute engine: CUDA (NVIDIA) -> MPS (Apple Silicon) -> CPU.
-if torch.cuda.is_available():
-    device = torch.device("cuda")
-elif torch.backends.mps.is_available():
-    device = torch.device("mps")
-else:
-    device = torch.device("cpu")
+device = get_device()
 print("Using device:", device)
 
 # %% [markdown]

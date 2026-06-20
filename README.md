@@ -26,7 +26,7 @@ inline plots, and `assert`-based sanity checks that double as lessons.
 | 02 | Embeddings | dense embeddings that beat BoW with far fewer parameters; word geometry |
 | 03 | Attention | scaled dot-product → causal mask → multi-head → grouped-query attention (GQA) |
 | 04 | Modern components | RoPE, RMSNorm, SwiGLU — each vs the older idea it replaces |
-| 05 | Assembling the model | the full Llama-style decoder block, weight tying, param counts |
+| 05 | Assembling the model | tour of the full Llama-style decoder block (imported from model.py), weight tying, param counts |
 | 06 | Training | the training loop, loss curves, checkpointing |
 | 07 | Evaluation & generation | perplexity, sampling (greedy/temperature/top-k/top-p), KV-cache |
 | 08 | Tuning | learning-rate warmup + cosine decay, hyperparameter sweeps |

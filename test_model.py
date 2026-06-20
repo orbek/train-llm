@@ -58,10 +58,21 @@ def test_kv_cache_matches_no_cache():
 
 
 def test_get_device():
-    from model import get_device
-    d = get_device()
-    assert isinstance(d, torch.device)
-    assert d.type in ("cuda", "mps", "cpu")
+    import model
+    orig_cuda = torch.cuda.is_available
+    orig_mps = torch.backends.mps.is_available
+    try:
+        torch.cuda.is_available = lambda: True
+        torch.backends.mps.is_available = lambda: True
+        assert model.get_device().type == "cuda"          # CUDA wins
+        torch.cuda.is_available = lambda: False
+        torch.backends.mps.is_available = lambda: True
+        assert model.get_device().type == "mps"           # MPS when no CUDA
+        torch.backends.mps.is_available = lambda: False
+        assert model.get_device().type == "cpu"           # CPU otherwise
+    finally:
+        torch.cuda.is_available = orig_cuda
+        torch.backends.mps.is_available = orig_mps
 
 
 if __name__ == "__main__":
