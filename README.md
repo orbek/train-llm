@@ -44,7 +44,7 @@ jupytext --to notebook --execute --set-kernel python3 notebooks/<file>.py -o not
 
 ## Status
 
-- [ ] Phase 1 — Foundations (notebooks 00–02) — in progress
+- [x] Phase 1 — Foundations (notebooks 00–02)
 - [ ] Phase 2 — The working transformer (notebooks 03–07)
 - [ ] Phase 3 — Advanced: tuning, BPE, MoE (notebooks 08–10)
 
