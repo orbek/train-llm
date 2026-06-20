@@ -214,15 +214,21 @@ print(f"RMSNorm  mean of first row: {out_rms[0].mean().item():.6f}  (not forced 
 # rotate fast (high frequency, captures local context). This multi-scale structure is
 # similar to how sinusoidal encodings work.
 #
-# The rotation itself is a 2D rotation applied to each pair `(x1, x2)`:
+# The rotation pairs each element in the **first half** of the vector with the
+# matching element in the **second half**: element `i` is paired with element
+# `i + head_dim/2`, and that pair is rotated by a position-dependent angle:
 # ```
-# [x1, x2] → [x1·cos - x2·sin, x1·sin + x2·cos]
+# pair (a, b) → (a·cos - b·sin,  a·sin + b·cos)
 # ```
-# Written in the "rotate half" trick:
+# We do all pairs at once with the "rotate-half" trick — split `x` into halves
+# `[A | B]` and return `[-B | A]`:
 # ```
 # rotated = x * cos + rotate_half(x) * sin
-# rotate_half([x1, x2, x3, x4]) = [-x2, x1, -x4, x3]
+# rotate_half([e0, e1, e2, e3]) = [-e2, -e3, e0, e1]   # halves, not adjacent pairs
 # ```
+# (This is the "chunked" RoPE variant: pairs are (first-half, second-half), not
+# neighbouring elements. `cos`/`sin` repeat each half so both members of a pair
+# share the same angle.)
 #
 # The `cos` and `sin` values are **precomputed** for all positions and all pairs,
 # giving tensors of shape `(seq_len, head_dim)`.
