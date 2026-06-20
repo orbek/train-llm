@@ -170,6 +170,27 @@ plan and a review point between them, so working results arrive early.
   correctly regardless of the kernel's launch directory). Applied retroactively
   to notebooks 00–02.
 
+### Phase 3 decisions (confirmed 2026-06-20)
+
+- **Fast renders:** notebooks 08–10 use small/`nano`-scale runs (few hundred
+  iterations) for sweeps and the MoE demo, so each notebook renders quickly.
+  They teach the concepts thoroughly without long training; each notes how to
+  scale up. No full ~9.4M retrains in Phase 3.
+- **Tuning (08):** implement a learning-rate schedule helper (linear warmup +
+  cosine decay) and run small lr / model-size sweeps on the `nano` model,
+  plotting the trends; explain which knobs matter and why.
+- **BPE (09):** implement Byte-Pair Encoding from scratch (train merges, encode/
+  decode); compare against char-level on compression (chars-per-token, sequence
+  length, vocab size); train a `nano` model briefly on BPE tokens to show it
+  works end-to-end. `tiktoken` shown only as a reference comparison (the only
+  notebook where it is permitted).
+- **MoE (10, capstone):** keep `model.py` stable. Notebook 10 is self-contained:
+  it builds an `MoEFeedForward` (N experts + top-k router + load-balancing
+  auxiliary loss), assembles a compact GPT variant that reuses `model.py`
+  components (RMSNorm, attention) but swaps the MLP for MoE, trains a `nano`
+  MoE briefly, and shows expert utilization / load balancing and the
+  active-vs-total parameter trade-off.
+
 ## Testing Philosophy
 
 Because the project is notebook-based, "testing" means **inline sanity checks

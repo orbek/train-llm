@@ -45,7 +45,10 @@ jupytext --to notebook --execute --set-kernel python3 notebooks/<file>.py -o not
 ## Status
 
 - [x] Phase 1 — Foundations (notebooks 00–02)
-- [ ] Phase 2 — The working transformer (notebooks 03–07)
-- [ ] Phase 3 — Advanced: tuning, BPE, MoE (notebooks 08–10)
+- [x] Phase 2 — The working transformer (notebooks 03–07)
+- [x] Phase 3 — Advanced: tuning, BPE, MoE (notebooks 08–10)
+
+All three phases complete: the course runs end-to-end from a Bag-of-Words baseline
+to a Mixture-of-Experts transformer that generates Shakespeare.
 
 See `docs/superpowers/specs/2026-06-20-llm-from-scratch-design.md` for the full design.
