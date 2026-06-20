@@ -34,7 +34,7 @@ MPLBACKEND=Agg python notebooks/01_data_and_bag_of_words.py
 
 ## Status
 
-- [x] Phase 1 — Foundations (notebooks 00–02)
+- [ ] Phase 1 — Foundations (notebooks 00–02) — in progress
 - [ ] Phase 2 — The working transformer (notebooks 03–07)
 - [ ] Phase 3 — Advanced: tuning, BPE, MoE (notebooks 08–10)
 
