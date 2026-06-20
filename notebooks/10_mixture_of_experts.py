@@ -55,8 +55,14 @@ import matplotlib.pyplot as plt
 from model import RMSNorm, CausalSelfAttention, build_rope, GPTConfig
 
 torch.manual_seed(42)
-device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
-print("device:", device)
+# Auto-detect the best compute engine: CUDA (NVIDIA) -> MPS (Apple Silicon) -> CPU.
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
+print("Using device:", device)
 
 # %% [markdown]
 # ---

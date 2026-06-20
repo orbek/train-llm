@@ -284,7 +284,14 @@ def make_bow_dataset(ids: list[int], context: int, vocab_size: int, limit: int):
         ys.append(ids[i + context])
     return torch.stack(xs), torch.tensor(ys)
 
-device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
+# Auto-detect the best compute engine: CUDA (NVIDIA) -> MPS (Apple Silicon) -> CPU.
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
+print("Using device:", device)
 
 Xtr, Ytr = make_bow_dataset(train_ids, CONTEXT, tok.vocab_size, limit=20000)
 Xva, Yva = make_bow_dataset(val_ids, CONTEXT, tok.vocab_size, limit=4000)

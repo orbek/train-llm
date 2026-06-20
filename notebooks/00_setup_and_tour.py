@@ -51,26 +51,34 @@ print("PyTorch :", torch.__version__)
 # faster than an ordinary CPU.
 #
 # In PyTorch, the word **device** refers to the piece of hardware where a computation
-# runs. The two you will encounter in this course are:
+# runs. There are three options you might encounter in this course:
 #
-# - **CPU** — your computer's main processor. Always available, but slower for ML.
+# - **CUDA** — NVIDIA GPUs on Windows and Linux. "CUDA" is NVIDIA's parallel-computing
+#   platform. If you have an NVIDIA graphics card, PyTorch can use it for dramatically
+#   faster training. (Note: on some platforms you may need a CUDA-enabled PyTorch build
+#   from https://pytorch.org — the default `pip install torch` is CPU-only on Windows.)
 # - **MPS** (Metal Performance Shaders) — the GPU built into Apple Silicon Macs
 #   (M1/M2/M3/M4 chips). "MPS" is Apple's name for the programming interface that
 #   lets PyTorch talk to that GPU. GPUs run many operations at once, which makes
 #   training dramatically faster.
+# - **CPU** — your computer's main processor. Always available on any machine, but
+#   slower for ML workloads. A perfectly fine fallback for these notebooks.
 #
-# The `pick_device()` function below makes this choice automatically:
-# 1. It asks PyTorch whether MPS is available on this machine
-#    (`torch.backends.mps.is_available()`).
-# 2. If yes, it returns `torch.device("mps")` — we will use the Apple GPU.
-# 3. If not (e.g., you are on a Linux machine or an Intel Mac), it falls back to
-#    `torch.device("cpu")` — perfectly fine for these notebooks, just a bit slower.
+# The `pick_device()` function below makes this choice automatically — no manual
+# configuration needed. It checks for the best available option in order:
+# 1. CUDA first — if you have an NVIDIA GPU on Windows or Linux, use it.
+# 2. MPS second — if you are on an Apple Silicon Mac, use the built-in GPU.
+# 3. CPU as the universal fallback — works on every machine.
 #
-# Every later notebook reuses this exact helper, so you will only ever see one line
-# to set the device: `device = pick_device()`.
+# This means the same code runs on any platform without any changes. Every later
+# notebook reuses this exact detection pattern, so you will never need to edit the
+# device line yourself.
 
 # %%
 def pick_device() -> torch.device:
+    # CUDA = NVIDIA GPUs (Windows/Linux); MPS = Apple Silicon GPU (Mac); else CPU.
+    if torch.cuda.is_available():
+        return torch.device("cuda")
     if torch.backends.mps.is_available():
         return torch.device("mps")
     return torch.device("cpu")

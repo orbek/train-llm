@@ -15,11 +15,23 @@ step before: Bag-of-Words → embeddings → attention → modern components →
 
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate          # macOS / Linux
+# .venv\Scripts\Activate.ps1       # Windows (PowerShell)
+# .venv\Scripts\activate.bat       # Windows (cmd)
 pip install -r requirements.txt
 ```
 
 (Optionally use [`uv`](https://github.com/astral-sh/uv): `uv venv && uv pip install -r requirements.txt` — faster.)
+
+### Hardware
+
+The notebooks automatically detect and use the best available compute engine — no manual configuration needed:
+
+- **NVIDIA GPU (CUDA)** on Windows or Linux — used if available.
+- **Apple Silicon GPU (MPS)** on macOS (M1/M2/M3/M4) — used if CUDA is not present.
+- **CPU** — universal fallback; works on any machine, just slower for training.
+
+> **Windows/Linux NVIDIA users:** the default `pip install torch` may install a CPU-only build. If PyTorch does not detect your GPU, install a CUDA-enabled build from https://pytorch.org.
 
 ## How to run
 

@@ -57,6 +57,13 @@ def test_kv_cache_matches_no_cache():
     assert torch.equal(a, b), "cached and non-cached greedy generation must match"
 
 
+def test_get_device():
+    from model import get_device
+    d = get_device()
+    assert isinstance(d, torch.device)
+    assert d.type in ("cuda", "mps", "cpu")
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_") and callable(fn):

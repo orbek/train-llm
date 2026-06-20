@@ -27,6 +27,17 @@ NANO_CONFIG = GPTConfig(block_size=64, n_layer=3, n_head=4, n_kv_head=2,
                         n_embd=128, dropout=0.0)
 
 
+def get_device():
+    """Best available compute engine: CUDA (NVIDIA GPU) -> MPS (Apple Silicon) -> CPU.
+
+    Works seamlessly on Windows/Linux (CUDA or CPU) and macOS (MPS or CPU)."""
+    if torch.cuda.is_available():
+        return torch.device("cuda")
+    if torch.backends.mps.is_available():
+        return torch.device("mps")
+    return torch.device("cpu")
+
+
 def build_rope(head_dim, seq_len, theta=10000.0):
     inv_freq = 1.0 / (theta ** (torch.arange(0, head_dim, 2).float() / head_dim))
     t = torch.arange(seq_len).float()

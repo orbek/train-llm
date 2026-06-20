@@ -53,8 +53,14 @@ import matplotlib.pyplot as plt
 from model import GPT, NANO_CONFIG, DEFAULT_CONFIG
 
 torch.manual_seed(1337)
-device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
-print("device:", device)
+# Auto-detect the best compute engine: CUDA (NVIDIA) -> MPS (Apple Silicon) -> CPU.
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
+print("Using device:", device)
 print("NANO_CONFIG  :", NANO_CONFIG)
 print("DEFAULT_CONFIG:", DEFAULT_CONFIG)
 
