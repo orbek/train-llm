@@ -147,6 +147,29 @@ plan and a review point between them, so working results arrive early.
 - **Phase 3 — Advanced (notebooks 08–10):** hyperparameter tuning, BPE from
   scratch, and the Mixture-of-Experts capstone.
 
+### Phase 2 decisions (confirmed 2026-06-20)
+
+- **Model scale:** the committed training run targets the **full ~10–15M**
+  config (~6 layers, ~6 heads, embedding dim ~384, context length 256). A
+  `nano` preset remains for instant debugging. The committed training cell caps
+  its step count to a reasonable wall-clock budget (run in background if it
+  exceeds a single command timeout) and documents how to train longer for
+  better samples.
+- **Attention:** implement BOTH causal multi-head attention AND grouped-query
+  attention (GQA) with a configurable `n_kv_head`. With `n_kv_head == n_head`
+  GQA reduces exactly to MHA — used as a correctness test.
+- **Shared module:** introduce a single source-of-truth `model.py` at the repo
+  root containing `GPTConfig`, the transformer `Block`, and the `GPT` model
+  (integrating GQA + RoPE + RMSNorm + SwiGLU + weight tying + KV-cache).
+  Notebook 05 teaches it; notebooks 06–07 `import` it. This is the spec's
+  sanctioned "shared helper when duplication becomes painful" exception. Small
+  per-notebook code (char tokenizer, `get_batch`) stays re-declared.
+- **Regularization:** include dropout (configurable in `GPTConfig`).
+- **Working-directory convention:** every notebook starts with a small cell
+  that walks up to the repo root (so paths like `data/` and `assets/` resolve
+  correctly regardless of the kernel's launch directory). Applied retroactively
+  to notebooks 00–02.
+
 ## Testing Philosophy
 
 Because the project is notebook-based, "testing" means **inline sanity checks
