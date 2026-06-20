@@ -502,8 +502,9 @@ del nano_model, half_model
 # notebook — warmup, cosine decay, val-loss comparison — are identical; only the scale
 # differs.
 #
-# > **Next step:** notebook 09 will cover scaling laws — the empirical relationships
-# > between compute, model size, data, and loss that guide decisions at scale.
+# > **Next step:** notebook 09 builds a **Byte-Pair Encoding (BPE)** tokenizer from
+# > scratch — a smarter way to turn text into tokens than the character-level scheme
+# > we have used so far.
 
 # %%
 print("Notebook 08 complete.")
