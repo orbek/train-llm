@@ -45,6 +45,27 @@
 # - Confirmed that mean-pooling is still order-blind (same limitation as BoW — motivation for notebook 03).
 # - Set up a character-level tokenizer for the upcoming transformer notebooks.
 
+# %% [markdown]
+# ## A note on working directories
+#
+# Jupyter runs a notebook from the folder the notebook lives in (`notebooks/`), not from
+# the project root. That means paths like `data/` and `assets/` would silently resolve
+# to `notebooks/data/` and `notebooks/assets/` — the wrong place. The cell below walks
+# up the directory tree until it finds the project root (identified by `requirements.txt`)
+# and changes the kernel's working directory there. After this cell runs, every path in
+# the notebook is relative to the project root, no matter how you launched Jupyter.
+
+# %%
+import os
+# Walk up to the repo root so relative paths (data/, assets/, checkpoints/) resolve
+# no matter which directory the notebook kernel was launched from.
+while not os.path.exists("requirements.txt"):
+    parent = os.path.dirname(os.getcwd())
+    if parent == os.getcwd():          # reached filesystem root; stop
+        break
+    os.chdir(parent)
+print("Working directory:", os.getcwd())
+
 # %%
 import os
 import re
