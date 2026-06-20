@@ -220,7 +220,7 @@ print("context windows:", tuple(Xtr.shape))
 #
 # - Embedding table: `vocab_size × emb_dim = 2000 × 64 = 128,000`
 # - Linear layer: `emb_dim × vocab_size + vocab_size = 64 × 2000 + 2000 = 130,000`
-# - **Total: ~258,000 parameters** — roughly 15× fewer than BoW's ~4,000,000!
+# - **Total: ~258,000 parameters** — roughly 16× fewer than BoW's ~4,000,000!
 #
 # That is the headline win of this notebook. We use far fewer numbers and get similar
 # (or better) prediction accuracy. This is because the embedding table is *shared* across
@@ -267,7 +267,7 @@ def evaluate(m, X, Y):
     with torch.no_grad():
         loss = nn.functional.cross_entropy(m(X), Y)
     m.train()
-    return float(loss)
+    return loss.item()
 
 opt = torch.optim.AdamW(model.parameters(), lr=3e-3)  # lower than BoW's 1e-2: the embedding model overfits at 1e-2
 losses = []
@@ -317,7 +317,7 @@ plt.savefig("assets/02_embedding_loss.png", dpi=120); plt.show()
 # hit a similar *floor* imposed by that difficulty.
 #
 # The embedding model's real wins are:
-# 1. **~15× fewer parameters** — dramatically less risk of overfitting; a much more
+# 1. **~16× fewer parameters** — dramatically less risk of overfitting; a much more
 #    efficient use of model capacity.
 # 2. **Learned geometry** — the embedding space encodes meaningful relationships between
 #    words. This structure is invisible to BoW. We'll see it in the next section.

@@ -375,7 +375,7 @@ def evaluate(model, X, Y) -> float:
     with torch.no_grad():
         loss = nn.functional.cross_entropy(model(X), Y)
     model.train()
-    return float(loss)
+    return loss.item()
 
 opt = torch.optim.AdamW(bow.parameters(), lr=1e-2)
 EPOCHS = 60
