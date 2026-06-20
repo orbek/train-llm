@@ -19,3 +19,6 @@ checkpoints/*
 # Stray dirs created if a notebook is run with cwd=notebooks/ (JupyterLab default)
 notebooks/data/
 notebooks/assets/
+
+# Planning / design docs (kept local, not published)
+docs/
