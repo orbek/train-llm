@@ -72,6 +72,7 @@ import torch.nn.functional as F
 torch.manual_seed(1337)
 device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
 print("device:", device)
+# Note: these small teaching cells run on CPU for clarity; the full model (later notebooks) uses the detected GPU/MPS device.
 
 # %% [markdown]
 # ## The big idea: what is attention?
@@ -492,8 +493,11 @@ os.makedirs("assets", exist_ok=True)
 
 # ---- tiny character-level data setup (self-contained) ----
 DATA_PATH = "data/shakespeare.txt"
-with open(DATA_PATH, "r", encoding="utf-8") as f:
-    raw = f.read()
+# Falls back to a short inline sample if the dataset hasn't been downloaded yet (run notebook 01 to fetch it).
+if os.path.exists(DATA_PATH):
+    raw = open(DATA_PATH, encoding="utf-8").read()
+else:
+    raw = "To be, or not to be, that is the question."
 
 chars = sorted(set(raw))
 cstoi = {c: i for i, c in enumerate(chars)}
