@@ -2,7 +2,7 @@
 
 ![Jupyter Notebook](https://img.shields.io/badge/jupyter-notebook-orange?logo=jupyter&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/pytorch-v2.12.1-blue?logo=pytorch&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-blue)
+![License](https://img.shields.io/badge/license-Apache_2.0-blue)
 
 A progressive, notebook-driven course that builds a modern decoder-only
 language model from raw text up to a Mixture-of-Experts variant — entirely
