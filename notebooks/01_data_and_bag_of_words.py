@@ -309,7 +309,7 @@ print("BoW train X:", tuple(Xtr.shape), "val X:", tuple(Xva.shape))
 # A linear layer (also called a **fully-connected** or **dense** layer) computes:
 #
 # ```
-# output = input @ W + b
+# output = input * W + b
 # ```
 #
 # where `W` is a matrix of learnable **weights** and `b` is a vector of learnable
@@ -463,7 +463,7 @@ plt.show()
 #
 # The phrase `"the king is dead"` and its reversal `"dead is king the"` contain
 # exactly the same words. Therefore their BoW count vectors are **identical**. And
-# because the model is just `output = input @ W + b`, identical inputs produce
+# because the model is just `output = input * W + b`, identical inputs produce
 # identical outputs — the model gives the *same next-word prediction* for both phrases,
 # even though they mean completely different things.
 #

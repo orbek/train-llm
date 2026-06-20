@@ -114,7 +114,7 @@ print("Using device:", device)
 #
 # Given Q, K, V all of shape `(batch_size, sequence_length, head_dim)`:
 #
-# 1. **Compute scores**: `scores = Q @ K^T` — for every pair of positions `(i, j)`,
+# 1. **Compute scores**: `scores = Q * K^T` — for every pair of positions `(i, j)`,
 #    measure how well query-at-`i` matches key-at-`j`. The result has shape `(B, T, T)`.
 #
 # 2. **Scale**: divide scores by `√head_dim`. Without this, the dot products grow large

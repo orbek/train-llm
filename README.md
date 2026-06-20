@@ -56,7 +56,7 @@ The notebooks automatically detect and use the best available compute engine —
 no manual configuration needed:
 
 - **NVIDIA GPU (CUDA)** on Windows or Linux — used if available.
-- **Apple Silicon GPU (MPS)** on macOS (M1–M4) — used if CUDA is not present.
+- **Apple Silicon GPU (MPS)** on macOS (M1–M5) — used if CUDA is not present.
 - **CPU** — universal fallback; works on any machine, just slower for training.
 
 > **Windows / Linux NVIDIA users:** the default `pip install torch` may install a
@@ -102,11 +102,4 @@ That thou hast seen the sea of the sea
 (The committed training run is capped for fast notebook rendering; raise
 `max_iters` in notebook 06 for sharper samples.)
 
-## Status
 
-- [x] Phase 1 — Foundations (notebooks 00–02)
-- [x] Phase 2 — The working transformer (notebooks 03–07)
-- [x] Phase 3 — Advanced: tuning, BPE, MoE (notebooks 08–10)
-
-All three phases complete: the course runs end-to-end from a Bag-of-Words
-baseline to a Mixture-of-Experts transformer that generates text.
