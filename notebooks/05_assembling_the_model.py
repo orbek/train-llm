@@ -50,7 +50,7 @@ import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
 
-from model import GPT, GPTConfig, NANO_CONFIG, DEFAULT_CONFIG
+from model import GPT, NANO_CONFIG, DEFAULT_CONFIG
 
 torch.manual_seed(1337)
 device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")

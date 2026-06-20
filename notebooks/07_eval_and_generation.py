@@ -42,7 +42,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from model import GPT, GPTConfig, sample
+from model import GPT, sample
 
 torch.manual_seed(42)
 device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")

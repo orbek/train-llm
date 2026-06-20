@@ -62,7 +62,6 @@ print("Working directory:", os.getcwd())
 
 # %%
 import math
-import os
 
 import matplotlib.pyplot as plt
 import torch

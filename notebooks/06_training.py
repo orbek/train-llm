@@ -222,8 +222,8 @@ print(f"max_iters   : {max_iters}  (≈ {max_iters/its_per_sec/60:.1f} min at {i
 #   decreasing steadily, with val loss slightly above train loss.
 
 # %%
-# This committed run is capped at max_iters=N (~M minutes) so the notebook renders
-# in reasonable time. Increase max_iters for sharper samples.
+# This committed run is capped at the max_iters computed above (targeting ~6 minutes
+# of training so the notebook renders quickly). Increase max_iters for sharper samples.
 
 EVAL_INTERVAL = 500
 EVAL_ITERS = 50
