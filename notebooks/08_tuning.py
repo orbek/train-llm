@@ -44,8 +44,6 @@ print("Working directory:", os.getcwd())
 import math
 import time
 import torch
-import matplotlib
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from model import GPT, NANO_CONFIG
@@ -266,6 +264,7 @@ ax.legend(fontsize=9)
 ax.set_ylim(bottom=0)
 plt.tight_layout()
 plt.savefig("assets/08_lr_schedule.png", dpi=120)
+plt.show()
 plt.close()
 print("Saved assets/08_lr_schedule.png")
 
@@ -401,6 +400,7 @@ ax.set_title("LR sweep — 300-iter nano GPT (red = best)")
 ax.set_ylim(0, max(val_losses) * 1.15)
 plt.tight_layout()
 plt.savefig("assets/08_lr_sweep.png", dpi=120)
+plt.show()
 plt.close()
 print("Saved assets/08_lr_sweep.png")
 

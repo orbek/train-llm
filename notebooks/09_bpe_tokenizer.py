@@ -53,8 +53,6 @@ print("Working directory:", os.getcwd())
 import dataclasses
 import time
 import torch
-import matplotlib
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from model import GPT, NANO_CONFIG
@@ -401,6 +399,7 @@ ax.set_ylim(0, char_tokens * 1.15)
 ax.spines[["top", "right"]].set_visible(False)
 plt.tight_layout()
 plt.savefig("assets/09_compression.png", dpi=120)
+plt.show()
 plt.close()
 print("Saved assets/09_compression.png")
 

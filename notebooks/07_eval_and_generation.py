@@ -38,9 +38,6 @@ print("Working directory:", os.getcwd())
 # %%
 import time
 import torch
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 
 from model import GPT, sample
 
