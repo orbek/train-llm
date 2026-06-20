@@ -17,6 +17,8 @@
 - Notebooks must run fast on a Mac (target < 60s per notebook as a script) — use small subsets / modest training so the teaching point lands without long waits.
 - Matplotlib: every plot is saved with `plt.savefig(...)` to `assets/` AND followed by `plt.show()`. Script-mode tests run with `MPLBACKEND=Agg` so `show()` is a harmless no-op.
 - `data/` and `checkpoints/` are gitignored; `assets/` is tracked.
+- **Explanation standard (every notebook, 00–10):** markdown must teach, not just name concepts. Plain beginner-friendly language; define jargon inline on first use; split dense code cells so each function/class is explained immediately before it; walk through every function/class step by step (parameters → what each step does → output) with a tiny concrete worked example. Depth target = "explain functions and classes step by step" (not exhaustive line-by-line). See memory `notebook-explanation-depth`.
+- **Training-loop convention:** extract scalar losses with `loss.item()` (not `float(loss)`, which warns on grad-bearing tensors). Comment any deviation from a plan-specified hyperparameter inline in the code.
 
 ## Plan Conventions (read once)
 
