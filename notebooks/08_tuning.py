@@ -323,8 +323,10 @@ def train_nano(lr, iters=300):
     Returns the final validation loss.
     """
     # Build a fresh model — important! each sweep run starts from scratch.
-    cfg = NANO_CONFIG
-    cfg.vocab_size = vocab_size           # override to match our char vocab
+    # Use dataclasses.replace to make a COPY of NANO_CONFIG with our vocab size;
+    # assigning `cfg = NANO_CONFIG` would alias (and mutate) the shared default.
+    import dataclasses
+    cfg = dataclasses.replace(NANO_CONFIG, vocab_size=vocab_size)
     model = GPT(cfg).to(device)
 
     warmup = max(1, iters // 10)
