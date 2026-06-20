@@ -92,3 +92,126 @@ split = int(0.9 * n)
 train_ids = ids_all[:split]
 val_ids = ids_all[split:]
 print(f"tokens: {n} (train {len(train_ids)}, val {len(val_ids)})")
+
+# %% [markdown]
+# ## The Bag-of-Words representation
+#
+# To predict the next word we look at the previous `CONTEXT` words — but we
+# represent them as an **unordered count vector** of length `vocab_size`. The
+# position of each word is discarded; only *how many times* each appears remains.
+
+# %%
+CONTEXT = 8
+
+def make_bow_dataset(ids: list[int], context: int, vocab_size: int, limit: int):
+    # returns X: (N, vocab_size) float counts, Y: (N,) next-word ids
+    xs, ys = [], []
+    step = max(1, (len(ids) - context - 1) // limit)  # subsample for speed
+    for i in range(0, len(ids) - context - 1, step):
+        window = ids[i:i + context]
+        vec = torch.zeros(vocab_size)
+        for w in window:
+            vec[w] += 1.0
+        xs.append(vec)
+        ys.append(ids[i + context])
+    return torch.stack(xs), torch.tensor(ys)
+
+device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
+
+Xtr, Ytr = make_bow_dataset(train_ids, CONTEXT, tok.vocab_size, limit=20000)
+Xva, Yva = make_bow_dataset(val_ids, CONTEXT, tok.vocab_size, limit=4000)
+Xtr, Ytr, Xva, Yva = Xtr.to(device), Ytr.to(device), Xva.to(device), Yva.to(device)
+print("BoW train X:", tuple(Xtr.shape), "val X:", tuple(Xva.shape))
+
+# %% [markdown]
+# The model is a single linear layer: count vector -> next-word logits. This is
+# multinomial logistic regression — about as simple as a learnable model gets.
+
+# %%
+class BoWModel(nn.Module):
+    def __init__(self, vocab_size: int):
+        super().__init__()
+        self.fc = nn.Linear(vocab_size, vocab_size)
+
+    def forward(self, x):
+        return self.fc(x)
+
+bow = BoWModel(tok.vocab_size).to(device)
+print("BoW params:", sum(p.numel() for p in bow.parameters()))
+
+# %% [markdown]
+# ## Train it
+#
+# Plain full-batch-ish training with AdamW and cross-entropy.
+
+# %%
+def evaluate(model, X, Y) -> float:
+    model.eval()
+    with torch.no_grad():
+        loss = nn.functional.cross_entropy(model(X), Y)
+    model.train()
+    return float(loss)
+
+opt = torch.optim.AdamW(bow.parameters(), lr=1e-2)
+EPOCHS = 60
+losses = []
+for epoch in range(EPOCHS):
+    logits = bow(Xtr)
+    loss = nn.functional.cross_entropy(logits, Ytr)
+    opt.zero_grad()
+    loss.backward()
+    opt.step()
+    losses.append(loss.item())
+
+val_loss = evaluate(bow, Xva, Yva)
+bow_val_ppl = float(torch.exp(torch.tensor(val_loss)))
+print(f"BoW final train loss {losses[-1]:.3f} | val loss {val_loss:.3f} | val perplexity {bow_val_ppl:.1f}")
+
+# %%
+os.makedirs("assets", exist_ok=True)
+plt.figure(figsize=(6, 4))
+plt.plot(losses)
+plt.xlabel("epoch"); plt.ylabel("train loss"); plt.title("BoW training loss")
+plt.tight_layout()
+plt.savefig("assets/01_bow_loss.png", dpi=120)
+plt.show()
+
+# %% [markdown]
+# ## The punchline: order is gone
+#
+# Two different orderings of the same words produce the **identical** BoW vector,
+# so the model gives the **identical** prediction. A real language needs order —
+# this is the measured flaw we'll fix with attention.
+
+# %%
+phrase_a = tok.encode("the king is dead")
+phrase_b = list(reversed(phrase_a))
+
+def bow_vec(ids):
+    v = torch.zeros(tok.vocab_size, device=device)
+    for w in ids:
+        v[w] += 1.0
+    return v
+
+va, vb = bow_vec(phrase_a), bow_vec(phrase_b)
+assert torch.equal(va, vb), "BoW vectors should be identical regardless of order"
+
+with torch.no_grad():
+    pa = bow(va.unsqueeze(0))
+    pb = bow(vb.unsqueeze(0))
+assert torch.allclose(pa, pb), "predictions should be identical regardless of order"
+print("Confirmed: '", tok.decode(phrase_a), "' and '", tok.decode(phrase_b),
+      "' give identical predictions. Order is invisible to BoW.")
+
+# %% [markdown]
+# ## Save the baseline number
+#
+# Notebook 02 will try to beat this perplexity with dense embeddings.
+
+# %%
+os.makedirs("assets", exist_ok=True)
+with open("assets/phase1_metrics.json", "w") as f:
+    json.dump({"bow_val_perplexity": bow_val_ppl,
+               "bow_params": sum(p.numel() for p in bow.parameters()),
+               "context": CONTEXT, "vocab_size": tok.vocab_size}, f, indent=2)
+print("Saved baseline:", bow_val_ppl)
