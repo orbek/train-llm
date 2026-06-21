@@ -1,7 +1,10 @@
 # Build an LLM from Scratch
 
+![Python](https://img.shields.io/badge/python-3.9%2B-blue?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/pytorch-v2.2%2B-blue?logo=pytorch&logoColor=white)
 ![Jupyter Notebook](https://img.shields.io/badge/jupyter-notebook-orange?logo=jupyter&logoColor=white)
-![PyTorch](https://img.shields.io/badge/pytorch-v2.12.1-blue?logo=pytorch&logoColor=white)
+![Mixture of Experts](https://img.shields.io/badge/mixture--of--experts-7c3aed)
+![From Scratch](https://img.shields.io/badge/from%20scratch-no%20HuggingFace-success)
 ![License](https://img.shields.io/badge/license-Apache_2.0-blue)
 
 A progressive, notebook-driven course that builds a modern decoder-only language model from raw text all the way up to a Mixture-of-Experts variant — entirely from scratch in PyTorch (no HuggingFace), sized to train on a laptop in minutes.
